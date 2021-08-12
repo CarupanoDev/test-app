@@ -11,10 +11,12 @@ use Src\Grade\Infrastructure\Repositories\EloquentGradeRepository;
 final class GradePostController
 {
     private $repository;
+    private $useCase;
 
-    public function __construct(EloquentGradeRepository $eloquentGradeRepository)
+    public function __construct(EloquentGradeRepository $repository, CreateGradeUseCase $useCase)
     {
-        $this->repository = $eloquentGradeRepository;
+        $this->repository = $repository;
+        $this->useCase = $useCase;
     }
 
     public function __invoke(Request $request)
@@ -24,9 +26,7 @@ final class GradePostController
             $request->get('description')
         );
 
-        $createGradeUseCase = new CreateGradeUseCase($this->repository);
-
-        ($createGradeUseCase)(
+        ($this->useCase)(
             $grade->name(),
             $grade->description()
         );

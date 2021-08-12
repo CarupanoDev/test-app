@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Src\Grade\Domain\Contracts\GradeRepositoryContract;
+use Src\Grade\Infrastructure\Repositories\EloquentGradeRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            GradeRepositoryContract::class,
+            EloquentGradeRepository::class
+        );
     }
 
     /**
