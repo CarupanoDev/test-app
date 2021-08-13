@@ -4,7 +4,6 @@ namespace Src\Grade\Application\Find;
 
 use Src\Grade\Domain\Grade;
 use Src\Grade\Domain\Contracts\GradeRepositoryContract;
-use InvalidArgumentException;
 
 final class GradeFinder
 {
@@ -15,9 +14,10 @@ final class GradeFinder
         $this->repository = $repository;
     }
 
-    public function __invoke($id): int
+    public function __invoke($id): Grade
     {
-        $this->repository->search($id);
-        return (int)$id;
+       $grade =  $this->repository->search($id);
+
+       return $grade;
     }
 }
