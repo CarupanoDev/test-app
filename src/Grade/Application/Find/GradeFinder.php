@@ -17,13 +17,7 @@ final class GradeFinder
 
     public function __invoke($id): int
     {
-        $grade = $this->repository->search($id);
-
-        if(null == $grade)
-        {
-            throw new InvalidArgumentException("Grade {$id} does not exists.");
-        }
-
+        $this->repository->search($id);
         return (int)$id;
     }
 }

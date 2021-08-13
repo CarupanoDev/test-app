@@ -7,6 +7,7 @@ use Src\Grade\Domain\Contracts\GradeRepositoryContract;
 use Src\Grade\Domain\Grade;
 use Src\Grade\Domain\ValueObjects\GradeDescription;
 use Src\Grade\Domain\ValueObjects\GradeName;
+use InvalidArgumentException;
 
 class EloquentGradeRepository implements GradeRepositoryContract
 {
@@ -31,6 +32,10 @@ class EloquentGradeRepository implements GradeRepositoryContract
     {
         $grade =  $this->gradeModel->find($id);
 
+        if(null === $grade){
+            throw new InvalidArgumentException("Grade {$id} does not exists.");
+        }
+
         return new Grade(
             new GradeName($grade->name),
             new GradeDescription($grade->description)
@@ -39,6 +44,6 @@ class EloquentGradeRepository implements GradeRepositoryContract
 
     public function delete(int $id): void
     {
-        $this->gradeModel::destroy($id);
+        $this->gradeModel->destroy($id);
     }
 }
