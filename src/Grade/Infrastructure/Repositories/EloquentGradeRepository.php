@@ -5,6 +5,8 @@ namespace Src\Grade\Infrastructure\Repositories;
 use App\Models\Grade as GradeModel;
 use Src\Grade\Domain\Contracts\GradeRepositoryContract;
 use Src\Grade\Domain\Grade;
+use Src\Grade\Domain\ValueObjects\GradeDescription;
+use Src\Grade\Domain\ValueObjects\GradeName;
 
 class EloquentGradeRepository implements GradeRepositoryContract
 {
@@ -25,8 +27,18 @@ class EloquentGradeRepository implements GradeRepositoryContract
         $this->gradeModel->create($data);
     }
 
+    public function search($id): ?Grade
+    {
+        $grade =  $this->gradeModel->find($id);
+
+        return new Grade(
+            new GradeName($grade->name),
+            new GradeDescription($grade->description)
+        );
+    }
+
     public function delete(int $id): void
     {
-        $this->gradeModel->findOrFail($id)->delete();
+        $this->gradeModel::destroy($id);
     }
 }
