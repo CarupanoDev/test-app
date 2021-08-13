@@ -2,23 +2,19 @@
 
 namespace Src\Grade\Infrastructure;
 
-use Illuminate\Http\Client\Request;
 use Src\Grade\Application\Delete\DeleteGradeUseCase;
-use Src\Grade\Infrastructure\Repositories\EloquentGradeRepository;
 
 final class GradeDeleteController
 {
-    private $repository;
+    private $useCase;
 
-    public function __construct(EloquentGradeRepository $repository)
+    public function __construct(DeleteGradeUseCase $useCase)
     {
-        $this->repository = $repository;
+        $this->useCase = $useCase;
     }
 
     public function __invoke($id)
     {
-        $deleteGradeUseCase = new DeleteGradeUseCase($this->repository);
-
-        ($deleteGradeUseCase)($id);
+        ($this->useCase)($id);
     }
 }
