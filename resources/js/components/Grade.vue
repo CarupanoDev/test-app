@@ -19,7 +19,7 @@
                 <td>{{grade.description}}</td>
                 <td class="text-center">
                     <button class="btn btn-warning">Edit</button>
-                    <button class="btn btn-danger">Delete</button>
+                    <button @click = "deleted(grade.id)" class="btn btn-danger">Delete</button>
                 </td>
             </tr>
             </tbody>
@@ -41,6 +41,9 @@ export default {
         async list(){
             const res = await axios.get('grades');
             this.grades = res.data;
+        },
+        async deleted(id){
+            await axios.delete('grades/' + id);
         },
     },
 

@@ -25,4 +25,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //Route::apiResource('/grades', GradeController::class);
 Route::get('/grades', GradeGetController::class);
-//Route::delete('/grades/{id}', GradeDeleteController::class);
+Route::delete('/grades/{id}', GradeDeleteController::class);

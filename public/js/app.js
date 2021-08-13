@@ -1926,6 +1926,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    deleted: function deleted(id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios["delete"]('grades/' + id);
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   },
   created: function created() {
@@ -38269,7 +38286,24 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(grade.description))]),
             _vm._v(" "),
-            _vm._m(1, true)
+            _c("td", { staticClass: "text-center" }, [
+              _c("button", { staticClass: "btn btn-warning" }, [
+                _vm._v("Edit")
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger",
+                  on: {
+                    click: function($event) {
+                      return _vm.deleted(grade.id)
+                    }
+                  }
+                },
+                [_vm._v("Delete")]
+              )
+            ])
           ])
         }),
         0
@@ -38296,16 +38330,6 @@ var staticRenderFns = [
           [_vm._v("Action")]
         )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "text-center" }, [
-      _c("button", { staticClass: "btn btn-warning" }, [_vm._v("Edit")]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-danger" }, [_vm._v("Delete")])
     ])
   }
 ]
