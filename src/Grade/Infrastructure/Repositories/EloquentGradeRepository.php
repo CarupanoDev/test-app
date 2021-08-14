@@ -6,6 +6,7 @@ use App\Models\Grade as GradeModel;
 use Src\Grade\Domain\Contracts\GradeRepositoryContract;
 use Src\Grade\Domain\Grade;
 use Src\Grade\Domain\ValueObjects\GradeDescription;
+use Src\Grade\Domain\ValueObjects\GradeId;
 use Src\Grade\Domain\ValueObjects\GradeName;
 use InvalidArgumentException;
 
@@ -26,6 +27,16 @@ class EloquentGradeRepository implements GradeRepositoryContract
         ];
 
         $this->gradeModel->create($data);
+    }
+
+    public function update(GradeId $id, Grade $grade): void
+    {
+        $data = [
+            'name' => $grade->name()->value(),
+            'description' => $grade->description()->value()
+        ];
+
+        $this->gradeModel->findOrFail($id->value())->update($data);
     }
 
     public function search($id): ?Grade

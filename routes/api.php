@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\GradePostController;
 use App\Http\Controllers\GradeDeleteController;
+use App\Http\Controllers\GradePutController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,6 +23,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 */
 
 Route::post('grade', GradePostController::class);
-//Route::delete('grade/{id}', GradeController::class);
+Route::put('grade/{id}', GradePutController::class);
 Route::delete('grade/{id}',GradeDeleteController::class);
 

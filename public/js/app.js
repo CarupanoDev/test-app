@@ -1924,12 +1924,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   data: function data() {
     return {
+      grade: {
+        name: '',
+        description: ''
+      },
+      id: 0,
       edit: true,
       modal: 0,
       modalTitle: 'lorem',
@@ -1983,9 +1996,58 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
+    store: function store() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!_this3.edit) {
+                  _context3.next = 5;
+                  break;
+                }
+
+                _context3.next = 3;
+                return axios.put('/grades/' + _this3.id, _this3.grade);
+
+              case 3:
+                _context3.next = 7;
+                break;
+
+              case 5:
+                _context3.next = 7;
+                return axios.post('grades/', _this3.grade);
+
+              case 7:
+                _this3.closeModal();
+
+                _this3.list();
+
+              case 9:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
     openModal: function openModal() {
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       this.modal = 1;
-      this.edit ? this.modalTitle = 'Update grade' : this.modalTitle = 'Register grade';
+
+      if (this.edit) {
+        this.id = data.id;
+        this.modalTitle = 'Update grade';
+        this.grade.name = data.name;
+        this.grade.description = data.description;
+      } else {
+        this.id = 0;
+        this.modalTitle = 'Register grade';
+        this.grade.name = '';
+        this.grade.description = '';
+      }
     },
     closeModal: function closeModal() {
       this.modal = 0;
@@ -38777,7 +38839,63 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
-            _vm._v("\n                    Modal body..\n                ")
+            _c("div", [
+              _c("label", { attrs: { for: "name" } }, [_vm._v("Grade name")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.grade.name,
+                    expression: "grade.name"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", id: "name", placeholder: "Grade name" },
+                domProps: { value: _vm.grade.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.grade, "name", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _c("label", { attrs: { for: "description" } }, [
+                _vm._v("Grade description")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.grade.description,
+                    expression: "grade.description"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  id: "description",
+                  placeholder: "Grade description"
+                },
+                domProps: { value: _vm.grade.description },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.grade, "description", $event.target.value)
+                  }
+                }
+              })
+            ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "modal-footer" }, [
@@ -38799,7 +38917,12 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-success",
-                attrs: { type: "button", "data-dismiss": "modal" }
+                attrs: { type: "button", "data-dismiss": "modal" },
+                on: {
+                  click: function($event) {
+                    return _vm.store()
+                  }
+                }
               },
               [_vm._v("Register")]
             )
@@ -38829,7 +38952,7 @@ var render = function() {
                   on: {
                     click: function($event) {
                       _vm.edit = true
-                      _vm.openModal(grade.id)
+                      _vm.openModal(grade)
                     }
                   }
                 },

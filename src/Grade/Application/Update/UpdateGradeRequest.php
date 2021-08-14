@@ -1,16 +1,23 @@
 <?php
 
-namespace Src\Grade\Application\Create;
+namespace Src\Grade\Application\Update;
 
-final class CreateGradeRequest
+class UpdateGradeRequest
 {
+    private int $id;
     private string $name;
     private  string $description;
 
-    public function __construct($name, $description)
+    public function __construct($id, $name, $description)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->description = $description;
+    }
+
+    public function id(): int
+    {
+        return $this->id;
     }
 
     public function name(): string

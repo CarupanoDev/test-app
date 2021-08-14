@@ -21,13 +21,21 @@
 
                     <!-- Modal body -->
                     <div class="modal-body">
-                        Modal body..
+                        <div>
+                            <label for="name">Grade name</label>
+                            <input v-model="grade.name" type="text" class="form-control" id="name" placeholder="Grade name">
+                        </div>
+
+                        <div>
+                            <label for="description">Grade description</label>
+                            <input v-model="grade.description" type="text" class="form-control" id="description" placeholder="Grade description">
+                        </div>
                     </div>
 
                     <!-- Modal footer -->
                     <div class="modal-footer">
                         <button @click="closeModal();" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button  type="button" class="btn btn-success" data-dismiss="modal">Register</button>
+                        <button @click="store();" type="button" class="btn btn-success" data-dismiss="modal">Register</button>
                     </div>
 
                 </div>
@@ -49,7 +57,7 @@
                 <td>{{grade.name}}</td>
                 <td>{{grade.description}}</td>
                 <td class="text-center">
-                    <button @click = "edit=true; openModal(grade.id);" class="btn btn-warning">Edit</button>
+                    <button @click = "edit=true; openModal(grade);" class="btn btn-warning">Edit</button>
                     <button @click = "deleted(grade.id)" class="btn btn-danger">Delete</button>
                 </td>
             </tr>
@@ -65,6 +73,12 @@ export default {
     },
     data() {
         return {
+            grade : {
+               name: '',
+               description: ''
+            },
+
+            id:0,
             edit: true,
             modal : 0,
             modalTitle : 'lorem',
@@ -80,9 +94,34 @@ export default {
             await axios.delete('grades/' + id);
             this.list();
         },
-        openModal(){
+        async store(){
+            if(this.edit)
+            {
+                await axios.put('/grades/' + this.id, this.grade);
+            }
+            else
+            {
+                await axios.post('grades/', this.grade);
+            }
+            this.closeModal();
+            this.list();
+        },
+        openModal(data={}){
            this.modal = 1;
-           this.edit ? this.modalTitle = 'Update grade' : this.modalTitle = 'Register grade';
+           if(this.edit)
+           {
+               this.id = data.id;
+               this.modalTitle = 'Update grade';
+               this.grade.name = data.name;
+               this.grade.description = data.description;
+           }
+           else
+           {
+               this.id = 0;
+               this.modalTitle = 'Register grade';
+               this.grade.name = '';
+               this.grade.description = '';
+           }
         },
         closeModal(){
             this.modal = 0;

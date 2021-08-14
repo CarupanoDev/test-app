@@ -1,7 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GradeController;
+use App\Http\Controllers\GradePostController;
+use App\Http\Controllers\GradePutController;
 use App\Http\Controllers\GradeGetController;
 use App\Http\Controllers\GradeDeleteController;
 /*
@@ -23,6 +25,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-//Route::apiResource('/grades', GradeController::class);
+Route::post('/grades', GradePostController::class);
+Route::put('/grades/{id}', GradePutController::class);
 Route::get('/grades', GradeGetController::class);
 Route::delete('/grades/{id}', GradeDeleteController::class);
